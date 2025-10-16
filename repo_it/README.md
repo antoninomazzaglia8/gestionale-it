@@ -1,0 +1,1 @@
+# Gestionale - Pronto per GitHub (Italiano)\n\nQuesto repository contiene la piattaforma gestionale pronta per essere importata su GitHub e collegata a Render.\n

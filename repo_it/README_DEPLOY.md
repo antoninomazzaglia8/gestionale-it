@@ -1,0 +1,1 @@
+# Istruzioni di deploy (Render) - Italiano\n\n1. Crea un repository su GitHub e carica i file di questa cartella.\n2. Vai su https://render.com e connetti il repository.\n
