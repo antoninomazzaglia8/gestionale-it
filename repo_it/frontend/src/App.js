@@ -4,7 +4,7 @@ import React from "react";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import Dashboard from "./components/dashboard";
-import UserList from "./components/UserList.jsx"; // Assumiamo che questa sia la versione principale
+import UserList from "./components/UsersList.jsx"; // Assumiamo che questa sia la versione principale
 import ServiceList from "./components/serviceList";
 
 function App() {
