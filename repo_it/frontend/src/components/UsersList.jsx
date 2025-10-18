@@ -1,61 +1,27 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-export default function UsersList() {
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000/api";
+
+function UsersList() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000/api";
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/users`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setUsers(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, [apiUrl]);
-
-  if (loading) return <p>Loading users...</p>;
-  if (error) return <p>Error: {error}</p>;
+    fetch(`${apiUrl}/users`)
+      .then((res) => res.json())
+      .then((data) => setUsers(data))
+      .catch((err) => console.error("Errore fetch utenti:", err));
+  }, []);
 
   return (
     <div>
-      <h2>Elenco Utenti</h2>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td colSpan="3">Nessun utente trovato</td>
-            </tr>
-          ) : (
-            users.map((user) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      <h2>Lista Utenti</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user._id}>{user.name}</li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+export default UsersList;
