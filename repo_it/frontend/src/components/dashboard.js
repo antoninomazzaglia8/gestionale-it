@@ -1,25 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000/api";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 
-const Dashboard = () => {
-  const [data, setData] = useState(null);
+export default function Dashboard() {
+  const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
-    fetch(`${apiUrl}/dashboard`)
+    fetch(`${API_URL}/api/dashboard`)
       .then(res => res.json())
-      .then(setData)
+      .then(data => setDashboardData(data))
       .catch(err => console.error("Errore fetch dashboard:", err));
   }, []);
 
-  if (!data) return <div>Loading...</div>;
+  if (!dashboardData) return <div>Loading dashboard...</div>;
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      {/* visualizza i dati */}
+      <h2>Dashboard</h2>
+      <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
     </div>
   );
-};
-
-export default Dashboard;
+}
