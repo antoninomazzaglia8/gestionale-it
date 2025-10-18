@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000/api";
+const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000/api";
 
 function UsersList() {
   const [users, setUsers] = useState([]);
@@ -25,3 +25,4 @@ function UsersList() {
 }
 
 export default UsersList;
+
