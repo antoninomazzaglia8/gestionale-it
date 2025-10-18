@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from "react";
 import config from "./config";
 
+import UsersList from './components/UsersList';
+
+function App() {
+  return (
+    <div>
+      <h1>Gestionale Confartigianato</h1>
+      <UsersList />
+    </div>
+  );
+}
+
+export default App;
+
 export default function App() {
   const [message, setMessage] = useState("Caricamento...");
 
