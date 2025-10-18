@@ -1,26 +1,12 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const User = require('../models/User');
 
-// 🔹 GET - tutti gli utenti
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.find().populate('servizi_sottoscritti');
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ msg: err.message });
-  }
+// Esempio dati utenti
+router.get("/", (req, res) => {
+  res.json([
+    { _id: "1", name: "Mario Rossi" },
+    { _id: "2", name: "Luigi Bianchi" }
+  ]);
 });
 
-// 🔹 POST - nuovo utente
-router.post('/', async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ msg: err.message });
-  }
-});
-
-module.exports = router;
+export default router;
