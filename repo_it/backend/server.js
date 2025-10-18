@@ -1,37 +1,43 @@
-// server.js
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const express = require('express');
-const mongoose = require('mongoose');
+// Carica variabili ambiente
+dotenv.config();
+
 const app = express();
-require('dotenv').config(); // opzionale se usi .env in locale
+const PORT = process.env.PORT || 10000;
 
+// Configura CORS
+// Sostituisci l'URL con quello del tuo frontend su Render
+app.use(cors({
+  origin: "https://gestionale-it-1.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
+// Middleware per JSON
 app.use(express.json());
 
-// --- Connessione a MongoDB ---
-const MONGO_URI = process.env.MONGO_URI;
+// Connessione a MongoDB
+const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/gestionale";
+mongoose.connect(mongoURI)
+  .then(() => console.log("MongoDB connesso"))
+  .catch(err => console.error("Errore connessione MongoDB:", err));
 
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => console.log("MongoDB connesso!"))
-.catch(err => console.error("Errore connessione MongoDB:", err));
+// Importa rotte API
+import dashboardRoutes from "./routes/dashboard.js";
+import usersRoutes from "./routes/users.js";
+import servicesRoutes from "./routes/services.js";
 
-// --- Rotte di test ---
-app.get('/api', (req, res) => res.json({ msg: 'Benvenuto nella dashboard API' }));
-app.get('/api/ping', (req, res) => res.json({ msg: 'pong' }));
+// Usa le rotte
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/services", servicesRoutes);
 
-const usersRouter = require('./routes/users');
-app.use('/api/users', usersRouter);
+// Rotta test
+app.get("/api/ping", (req, res) => res.send("Pong"));
 
-// --- Rotte future per Users, Servizi, Finanza ---
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/servizi', require('./routes/servizi'));
-// app.use('/api/finanza', require('./routes/finanza'));
-
-// --- Porta ---
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Backend live! Porta: ${PORT}`);
-  console.log(`Test endpoint: ${process.env.PORT ? `https://gestionale-backend-it.onrender.com/api/ping` : `http://localhost:${PORT}/api/ping`}`);
-});
+// Avvia server
+app.listen(PORT, () => console.log(`Backend live! Porta: ${PORT}`));
