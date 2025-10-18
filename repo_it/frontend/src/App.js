@@ -1,11 +1,11 @@
 import React from "react";
 
 // Import dei componenti
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Dashboard from "./components/Dashboard";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import Dashboard from "./components/dashboard";
 import UserList from "./components/UserList.jsx"; // Assumiamo che questa sia la versione principale
-import ServiceList from "./components/ServiceList";
+import ServiceList from "./components/serviceList";
 
 function App() {
   return (
