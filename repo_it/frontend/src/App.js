@@ -5,7 +5,7 @@ import Header from "./components/header";
 import Footer from "./components/footer";
 import Dashboard from "./components/dashboard";
 import UserList from "./components/UsersList.jsx"; // Assumiamo che questa sia la versione principale
-import ServiceList from "./components/serviceList";
+import ServiceList from "./components/servicelist";
 
 function App() {
   return (
