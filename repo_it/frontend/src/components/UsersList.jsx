@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000/api";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 
-const UsersList = () => {
+export default function UsersList() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`${apiUrl}/users`)
+    fetch(`${API_URL}/api/users`)
       .then(res => res.json())
-      .then(setUsers)
+      .then(data => setUsers(data))
       .catch(err => console.error("Errore fetch utenti:", err));
   }, []);
 
+  if (!users.length) return <div>Loading users...</div>;
+
   return (
-    <ul>
-      {users.map(user => (
-        <li key={user._id}>{user.name}</li>
-      ))}
-    </ul>
+    <div>
+      <h2>Users List</h2>
+      <ul>
+        {users.map(u => (
+          <li key={u._id}>{u.name} ({u.email})</li>
+        ))}
+      </ul>
+    </div>
   );
-};
-
-export default UsersList;
-
+}
