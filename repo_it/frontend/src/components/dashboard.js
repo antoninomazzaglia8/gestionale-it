@@ -4,7 +4,7 @@ const Dashboard = () => {
   const [users, setUsers] = useState([]);
   const [services, setServices] = useState([]);
   const [revenues, setRevenues] = useState(0);
-  const API_URL = import.meta.env.VITE_API_URL; // Assicurati di avere la variabile VITE_API_URL configurata
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000/api";
 
   useEffect(() => {
     // Funzione per caricare utenti
