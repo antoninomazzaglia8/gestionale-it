@@ -5,7 +5,7 @@ export default function UsersList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:10000/api";
 
   useEffect(() => {
     const fetchUsers = async () => {
