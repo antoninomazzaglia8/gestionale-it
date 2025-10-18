@@ -21,6 +21,9 @@ mongoose.connect(MONGO_URI, {
 app.get('/api', (req, res) => res.json({ msg: 'Benvenuto nella dashboard API' }));
 app.get('/api/ping', (req, res) => res.json({ msg: 'pong' }));
 
+const usersRouter = require('./routes/users');
+app.use('/api/users', usersRouter);
+
 // --- Rotte future per Users, Servizi, Finanza ---
 // app.use('/api/users', require('./routes/users'));
 // app.use('/api/servizi', require('./routes/servizi'));
