@@ -1,43 +1,39 @@
-import express from "express";
-import cors from "cors";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+// backend/server.js
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-// Carica variabili ambiente
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 10000;
+const MONGO_URI = process.env.MONGO_URI;
 
 // Configura CORS
-// Sostituisci l'URL con quello del tuo frontend su Render
 app.use(cors({
-  origin: "https://gestionale-it-1.onrender.com",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
+  origin: process.env.VITE_API_URL || '*', // fallback '*' se variabile non definita
 }));
 
-// Middleware per JSON
 app.use(express.json());
 
 // Connessione a MongoDB
-const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/gestionale";
-mongoose.connect(mongoURI)
-  .then(() => console.log("MongoDB connesso"))
-  .catch(err => console.error("Errore connessione MongoDB:", err));
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('MongoDB connesso!'))
+.catch((err) => console.error('Errore connessione MongoDB:', err));
 
-// Importa rotte API
-import dashboardRoutes from "./routes/dashboard.js";
-import usersRoutes from "./routes/users.js";
-import servicesRoutes from "./routes/services.js";
+// Endpoint di test
+app.get('/api/ping', (req, res) => {
+  res.json({ message: 'Backend live!' });
+});
 
-// Usa le rotte
-app.use("/api/dashboard", dashboardRoutes);
-app.use("/api/users", usersRoutes);
-app.use("/api/services", servicesRoutes);
+// Inserisci qui le tue rotte, ad esempio /api/users, /api/dashboard
+// app.use('/api/users', usersRouter);
+// app.use('/api/dashboard', dashboardRouter);
 
-// Rotta test
-app.get("/api/ping", (req, res) => res.send("Pong"));
-
-// Avvia server
-app.listen(PORT, () => console.log(`Backend live! Porta: ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend live! Porta: ${PORT}`);
+});
