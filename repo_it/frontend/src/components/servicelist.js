@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:10000/api";
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 
-const ServicesList = () => {
+export default function ServiceList() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch(`${apiUrl}/services`)
+    fetch(`${API_URL}/api/services`)
       .then(res => res.json())
-      .then(setServices)
+      .then(data => setServices(data))
       .catch(err => console.error("Errore fetch servizi:", err));
   }, []);
 
-  return (
-    <ul>
-      {services.map(service => (
-        <li key={service._id}>{service.name}</li>
-      ))}
-    </ul>
-  );
-};
+  if (!services.length) return <div>Loading services...</div>;
 
-export default ServicesList;
+  return (
+    <div>
+      <h2>Services List</h2>
+      <ul>
+        {services.map(s => (
+          <li key={s._id}>{s.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
