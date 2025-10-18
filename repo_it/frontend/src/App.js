@@ -1,23 +1,38 @@
-// src/App.js
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+// Import dei componenti
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Dashboard from "./components/Dashboard";
+import UserList from "./components/UserList.jsx"; // Assumiamo che questa sia la versione principale
+import ServiceList from "./components/ServiceList";
 
 function App() {
-  const [ping, setPing] = useState("");
-
-  useEffect(() => {
-    // Prende l'URL del backend dalla variabile di ambiente
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-    fetch(`${apiUrl}/api/ping`)
-      .then((res) => res.json())
-      .then((data) => setPing(data.msg))
-      .catch((err) => setPing("Errore connessione"));
-  }, []);
-
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <h1>Benvenuto nel Gestionale Confartigianato Catania</h1>
-      <p>Test backend: {ping}</p>
+    <div style={{ fontFamily: "Arial, sans-serif" }}>
+      <Header />
+
+      <main style={{ padding: "20px" }}>
+        <h1>Gestionale Confartigianato Catania</h1>
+        <p>Dashboard per la gestione di utenti, servizi e ricavi.</p>
+
+        <section style={{ marginBottom: "40px" }}>
+          <h2>Dashboard</h2>
+          <Dashboard />
+        </section>
+
+        <section style={{ marginBottom: "40px" }}>
+          <h2>Lista Utenti</h2>
+          <UserList />
+        </section>
+
+        <section style={{ marginBottom: "40px" }}>
+          <h2>Servizi Disponibili</h2>
+          <ServiceList />
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 }
