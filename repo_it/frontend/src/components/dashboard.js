@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // dashboard.js
 const API_URL =
-  import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "http://localhost:5000";
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 console.log("API_URL:", API_URL);
 
