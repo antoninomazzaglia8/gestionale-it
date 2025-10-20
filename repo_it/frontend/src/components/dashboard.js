@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
+const apiUrl = import.meta?.env?.VITE_API_URL || process.env.VITE_API_URL || "https://gestionale-backend-it.onrender.com";
 
 export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
