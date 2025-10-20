@@ -1,33 +1,57 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-// dashboard.js
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+// ✅ Ottiene la variabile d'ambiente correttamente
+const API_URL = import.meta.env.VITE_API_URL;
 
-console.log("API_URL:", API_URL);
-
-// esempio di chiamata API
-fetch(`${API_URL}/api/users`)
-  .then((res) => res.json())
-  .then((data) => console.log("Dati ricevuti:", data))
-  .catch((err) => console.error("Errore nella chiamata API:", err));
-
-export default function Dashboard() {
-  const [dashboardData, setDashboardData] = useState(null);
+const Dashboard = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/dashboard`)
-      .then(res => res.json())
-      .then(data => setDashboardData(data))
-      .catch(err => console.error("Errore fetch dashboard:", err));
+    console.log("✅ API URL letta da Vite:", API_URL);
+
+    if (!API_URL) {
+      console.error("❌ ERRORE: VITE_API_URL non è definita!");
+      setError("Configurazione mancante: variabile VITE_API_URL non trovata");
+      setLoading(false);
+      return;
+    }
+
+    // Esegui la chiamata API
+    fetch(`${API_URL}/api/data`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Errore durante la richiesta");
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("❌ Errore fetch:", err);
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
 
-  if (!dashboardData) return <div>Loading dashboard...</div>;
+  if (loading) return <p>Caricamento dati...</p>;
+  if (error) return <p style={{ color: "red" }}>Errore: {error}</p>;
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <pre>{JSON.stringify(dashboardData, null, 2)}</pre>
+    <div style={{ padding: "20px" }}>
+      <h1>Dashboard</h1>
+      {data.length > 0 ? (
+        <ul>
+          {data.map((item, i) => (
+            <li key={i}>{item.name || JSON.stringify(item)}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nessun dato disponibile.</p>
+      )}
     </div>
   );
-}
+};
+
+export default Dashboard;
