@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 
-const apiUrl = import.meta?.env?.VITE_API_URL || process.env.VITE_API_URL || "https://gestionale-backend-it.onrender.com";
+// dashboard.js
+const API_URL =
+  import.meta.env.VITE_API_URL || process.env.VITE_API_URL || "http://localhost:5000";
+
+console.log("API_URL:", API_URL);
+
+// esempio di chiamata API
+fetch(`${API_URL}/api/users`)
+  .then((res) => res.json())
+  .then((data) => console.log("Dati ricevuti:", data))
+  .catch((err) => console.error("Errore nella chiamata API:", err));
 
 export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
